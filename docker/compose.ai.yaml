@@ -1,0 +1,18 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: always
+    # These labels automatically add the button to your Homepage dashboard
+    labels:
+      - "homepage.group=AI"
+      - "homepage.name=Ollama"
+      - "homepage.icon=ollama"
+      - "homepage.href=https://ai.survival.lan"
+      - "homepage.description=Local LLM Backend"
+
+volumes:
+  ollama_data:

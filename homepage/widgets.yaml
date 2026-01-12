@@ -1,0 +1,16 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/info-widgets/
+
+- resources: # Optional. System resource monitoring widget.
+    cpu: true
+    memory: true
+    disk: /
+
+- search: # Optional. Only usable when internet access is available.
+    provider: [google, duckduckgo] # Dropdown selection of google and duckduckgo. Valid options: google, duckduckgo, bing, baidu, brave or custom
+    target: _blank # Open in new tab. Valid options: _self, _blank, _parent, _top
+    showSearchSuggestions: true # Optional
+    # custom:
+    # url:
+    # suggestionUrl: # Optional

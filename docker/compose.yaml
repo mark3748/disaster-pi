@@ -1,0 +1,115 @@
+services:
+## Caddy Reverse Proxy, ingress for all services
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile # Caddy configuration is mounted from host for easy editing
+      - caddy_data:/data
+      - caddy_config:/config
+    labels:
+      - "homepage.group=System"
+      - "homepage.name=Caddy Proxy"
+      - "homepage.icon=caddy"
+      - "homepage.href=https://survival.lan" # Link to main dashboard
+      - "homepage.description=Reverse Proxy for Services"
+
+## Dashboard, utilizes service labels to auto-generate buttons
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    restart: unless-stopped
+    volumes:
+      - ./homepage/config:/app/config # Mount custom config, changes made here persist across updates
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Read-only access to Docker socket for service discovery, required for auto-generation of buttons
+    # ports:
+    #   - "3000:3000" # Optional: expose Homepage on its own port (not needed if using Caddy)
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: "survival.lan"
+
+## Centralized Postgres DB for Mealie and Ollama, should be utilized by any other services needing a Postgres backend
+  postgres:
+    image: ankane/pgvector:latest # Postgres with pgvector extension for Ollama LLMs
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secure_offline_password # Change this password to something secure
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh # Custom init script to create multiple DBs, creates mealie and ollama DBs
+
+## Survival Services ##
+## Kiwix Offline Library
+  kiwix:
+    image: ghcr.io/kiwix/kiwix-serve:latest
+    command: "*.zim" # Serve all ZIM files in the data directory
+    volumes:
+      - ./files/zim-library:/data # Mount ZIM library, located in the 'files' directory for easy access/management via Filebrowser. scripts/download-standard-zims.sh can be used to add ZIMs.
+    restart: unless-stopped
+    # ports:
+    #   - 8080:8080 # Optional: expose Kiwix on its own port (not needed if using Caddy)
+    labels:
+      - "homepage.group=Survival"
+      - "homepage.name=Kiwix Library"
+      - "homepage.icon=kiwix"
+      - "homepage.href=https://kiwix.survival.lan"
+
+## Mealie Recipe Manager
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:latest
+    depends_on:
+      - postgres
+    # ports:
+    #   - 9000:9000 # Optional: expose Mealie on its own port (not needed if using Caddy)
+    volumes:
+      - ./mealie-data:/app/data/
+    environment:
+      OIDC_AUTH_ENABLED: "false"
+      DB_ENGINE: postgres
+      POSTGRES_SERVER: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secure_offline_password
+      POSTGRES_DB: mealie
+      BASE_URL: https://mealie.survival.lan
+    restart: unless-stopped
+    labels:
+      - "homepage.group=Survival"
+      - "homepage.name=Mealie Recipes"
+      - "homepage.icon=mealie"
+      - "homepage.href=https://mealie.survival.lan"
+      ## Optional: enable Mealie dashboard widget (requires an API token with read access)
+      # - "homepage.widget.type=mealie"
+      # - "homepage.widget.url=http://mealie:9000"
+      # - "homepage.widget.key=<replace-with-mealie-api-token>"
+      # - "homepage.widget.version=2"
+      
+  filebrowser:
+    image: filebrowser/filebrowser:s6
+    volumes:
+      - ./files:/srv
+      - filebrowser_database:/database
+      - filebrowser_config:/config
+    environment:
+      PUID: 1000
+      PGID: 1000
+    # ports:
+    #   - 8181:80 # Optional: expose Filebrowser on its own port (not needed if using Caddy)
+    labels:
+      - "homepage.group=Survival"
+      - "homepage.name=Files"
+      - "homepage.icon=sh-file-browser"
+      - "homepage.href=https://files.survival.lan"
+      - "homepage.description=File Management"
+      ## Optional: enable Filebrowser dashboard widget (use the credentials configured at first launch)
+      # - "homepage.widget.type=filebrowser"
+      # - "homepage.widget.url=http://filebrowser:80"
+      # - "homepage.widget.username=<replace-with-username>"
+      # - "homepage.widget.password=<replace-with-password>"
+
+volumes:
+  caddy_data:
+  caddy_config:
+  filebrowser_database:
+  filebrowser_config:

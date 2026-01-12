@@ -1,0 +1,7 @@
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/docker/
+
+# This allows Homepage to communicate with the Docker daemon via the socket
+# This allows for the labels in docker-compose auto-populate the dashboard.
+my-docker:
+  socket: /var/run/docker.sock
