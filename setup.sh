@@ -3,7 +3,7 @@
 ## For details see https://mhamburger.net/projects/disaster-pi or https://github.com/mark3748/disaster-pi
 
 # Check for root
-if [ "$EUID" -ne 0 ]; then 
+if [ "$EUID" -ne 0 ]; then
   echo "Please run as root (sudo ./setup.sh)"
   exit 1
 fi
@@ -60,7 +60,7 @@ fi
 
 # 3. Create Directories & Fix Permissions
 echo "[+] Creating project directories..."
-mkdir -p "$INSTALL_DIR"/{files/zim-library,homepage,mealie-data,pgdata,ollama_data,open-webui-data}
+mkdir -p "$INSTALL_DIR"/{files/zim-library,docker,homepage,mealie-data,pgdata,ollama_data,open-webui-data}
 
 # Copy Configs
 echo "[+] Copying configurations..."
@@ -68,6 +68,7 @@ cp -r ./configs/Caddyfile "$INSTALL_DIR/Caddyfile"
 cp -r ./configs/init-multiple-dbs.sh "$INSTALL_DIR/init-multiple-dbs.sh"
 cp -r ./configs/dnsmasq.conf "$DNS_DEST"
 cp -r ./homepage "$INSTALL_DIR/"
+cp -r ./docker "$INSTALL_DIR/"
 
 # Make scripts executable
 chmod +x "$INSTALL_DIR/init-multiple-dbs.sh"
