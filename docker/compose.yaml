@@ -22,7 +22,7 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     restart: unless-stopped
     volumes:
-      - ./homepage/config:/app/config # Mount custom config, changes made here persist across updates
+      - ./homepage:/app/config # Mount custom config, changes made here persist across updates
       - /var/run/docker.sock:/var/run/docker.sock:ro # Read-only access to Docker socket for service discovery, required for auto-generation of buttons
     # ports:
     #   - "3000:3000" # Optional: expose Homepage on its own port (not needed if using Caddy)
