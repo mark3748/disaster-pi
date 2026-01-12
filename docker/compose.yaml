@@ -36,6 +36,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: secure_offline_password # Change this password to something secure
+      POSTGRES_DB: admin # Default DB, additional DBs created via init script
     volumes:
       - ./pgdata:/var/lib/postgresql/data
       - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh # Custom init script to create multiple DBs, creates mealie and ollama DBs

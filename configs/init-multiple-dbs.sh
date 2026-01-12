@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 set -u
-psql -v ON_ERROR_STOP=1 --username "\$POSTGRES_USER" --dbname "\$POSTGRES_DB" <<-EOSQL
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
 	CREATE DATABASE mealie;
 	CREATE DATABASE vectors;
 EOSQL
