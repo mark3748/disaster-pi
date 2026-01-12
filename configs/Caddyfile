@@ -1,29 +1,29 @@
 survival.lan {
-    reverse_proxy homepage:3000
-    tls internal
+	reverse_proxy homepage:3000
+	tls internal
 }
 
 mealie.survival.lan {
-    reverse_proxy mealie:9000
-    tls internal
+	reverse_proxy mealie:9000
+	tls internal
 }
 
 kiwix.survival.lan {
-    reverse_proxy kiwix:8080
-    tls internal
+	reverse_proxy kiwix:8080
+	tls internal
 }
 
 admin.survival.lan {
-    reverse_proxy 10.3.141.1:8000
-    tls internal
+	reverse_proxy 10.3.141.1:8000
+	tls internal
 }
 
 files.survival.lan {
-    reverse_proxy filebrowser:80
-    tls internal
+	reverse_proxy filebrowser:80
+	tls internal
 }
 
 ai.survival.lan {
-    reverse_proxy ollama:11434
-    tls internal
+	reverse_proxy open-webui:8080 # Don't forget to change this if you switch chat interfaces!
+	tls internal
 }

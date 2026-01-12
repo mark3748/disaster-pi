@@ -1,18 +1,50 @@
 services:
+  ## Ollama LLM Backend
   ollama:
     image: ollama/ollama:latest
     volumes:
-      - ollama_data:/root/.ollama
+      - ./ollama_data:/root/.ollama
     ports:
       - "11434:11434"
     restart: always
-    # These labels automatically add the button to your Homepage dashboard
+
+  ## Tiny Ollama Chat UI. Lightweight chat interface for Ollama models. 
+  ## Uses SQLite for storing chat history in a dockervolume.
+  ## Uncomment this service if you want a simple chat UI. Disable if using Open WebUI.
+  # tiny-ollama-chat:
+  #   image: ghcr.io/anishgowda21/tiny-ollama-chat:latest
+  #   environment:
+  #     - OLLAMA_URL=http://ollama:11434
+  #     - DB_PATH=/app/data/custom.db
+  #   # ports:
+  #   #   - "8282:8080" # Uncomment to expose Tiny Ollama Chat UI
+  #   volumes:
+  #     - ./open-webui-data:/app/data # use same volume to simplify backups/setup scripts 
+  #   restart: always
+  #   labels:
+  #     - "homepage.group=AI"
+  #     - "homepage.name=Chat Assistant"
+  #     - "homepage.icon=tiny-ollama-chat"
+  #     - "homepage.href=https://ai.survival.lan" # Don't forget to set up Caddyfile
+  #     - "homepage.description=Offline AI"
+
+  ## Open WebUI - Advanced web interface for Ollama models with RAG support.
+  ## Use this if you have enought resources and want a more feature-rich experience.
+  ## Note: Ensure WEBUI_AUTH is set to False to avoid lockout.
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    restart: always
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_AUTH=False  # CRITICAL: No login needed. It's a survival tool, don't get locked out.
+      - WEBUI_NAME=Disaster Brain
+    volumes:
+      - ./open-webui-data:/app/backend/data
     labels:
       - "homepage.group=AI"
-      - "homepage.name=Ollama"
-      - "homepage.icon=ollama"
+      - "homepage.name=Chat Assistant"
+      - "homepage.icon=open-webui"
       - "homepage.href=https://ai.survival.lan"
-      - "homepage.description=Local LLM Backend"
-
-volumes:
-  ollama_data:
+      - "homepage.description=Offline AI & RAG"

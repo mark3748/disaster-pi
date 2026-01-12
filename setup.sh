@@ -58,9 +58,9 @@ else
     echo "    Ensure RaspAP is installed if you want the Hotspot functionality."
 fi
 
-# 3. Create Directories & Fix Permissions (The 1000:1000 Fix)
+# 3. Create Directories & Fix Permissions
 echo "[+] Creating project directories..."
-mkdir -p "$INSTALL_DIR"/{files/zim-library,homepage,mealie-data,pgdata,caddy_data,caddy_config,ollama_data}
+mkdir -p "$INSTALL_DIR"/{files/zim-library,homepage,mealie-data,pgdata,ollama_data,open-webui-data}
 
 # Copy Configs
 echo "[+] Copying configurations..."
@@ -77,6 +77,11 @@ echo "[+] Enforcing 1000:1000 ownership on data directories..."
 chown -R 1000:1000 "$INSTALL_DIR"
 echo "[+] Fixing Postgres permissions..."
 chown -R 999:999 "$INSTALL_DIR/pgdata"
+# Required for AI, running regardless of AI option for UX reasons. 
+# If you change deployment mode later, they'll be set!
+echo "[+] chmod 777 to AI data directories..."
+chmod 777 "$INSTALL_DIR/ollama_data"
+chmod 777 "$INSTALL_DIR/open-webui-data"
 
 # Reload NetworkManager for DNS
 if systemctl is-active --quiet NetworkManager; then
