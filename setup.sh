@@ -78,6 +78,8 @@ echo "[+] Enforcing 1000:1000 ownership on data directories..."
 chown -R 1000:1000 "$INSTALL_DIR"
 echo "[+] Fixing Postgres permissions..."
 chown -R 999:999 "$INSTALL_DIR/pgdata"
+echo "[+] Fixing Mealie permissions..."
+chown -R 911:911 "$INSTALL_DIR/mealie-data"
 # Required for AI, running regardless of AI option for UX reasons. 
 # If you change deployment mode later, they'll be set!
 echo "[+] chmod 777 to AI data directories..."
