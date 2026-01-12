@@ -24,7 +24,7 @@ download_zim() {
 
 # 1. WikiMed (Medical Encyclopedia) - CRITICAL
 # The "maxi" version includes images, vital for medical diagnosis.
-download_zim "https://download.kiwix.org/zim/wikipedia/wikipedia_en_medicine_maxi_2026-01.zim
+download_zim "https://download.kiwix.org/zim/wikipedia/wikipedia_en_medicine_maxi_2026-01.zim"
 
 # 2. iFixit (Repair Manuals)
 # Essential for repairing radios, generators, and tools.
