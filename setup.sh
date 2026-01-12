@@ -13,7 +13,7 @@ set -e
 # Configuration
 INSTALL_DIR="/opt/disaster-pi"
 AI_MODEL="qwen2.5:1.5b" # Change to 'phi-3' if preferred
-DNS_DEST="/etc/NetworkManager/dnsmasq.d/01-DNS-survival-lan.conf"
+DNS_DEST="/etc/dnsmasq.d/01-DNS-survival-lan.conf"
 
 # --- Prompt for AI ---
 read -r -p "${ENABLE_AI:-Enable AI Integration? (y/N) } " REPLY
@@ -85,8 +85,8 @@ chmod 777 "$INSTALL_DIR/ollama_data"
 chmod 777 "$INSTALL_DIR/open-webui-data"
 
 # Reload NetworkManager for DNS
-if systemctl is-active --quiet NetworkManager; then
-    systemctl reload NetworkManager
+if systemctl is-active --quiet dnsmasq; then
+    systemctl reload dnsmasq
 fi
 
 # 4. Launch Stack
