@@ -3,6 +3,7 @@
 # Saves all Disaster Pi docker images to a single offline archive.
 
 BACKUP_DIR="/opt/disaster-pi/backups"
+PROJECT_DIR="/opt/disaster-pi"
 TIMESTAMP=$(date +%Y%m%d)
 ARCHIVE_NAME="disaster-pi-airgap-images-$TIMESTAMP.tar"
 
@@ -13,7 +14,7 @@ echo "Identifying active images..."
 
 # Get all images defined in the compose stack
 # We use 'docker compose config' to ensure we only get the ones we care about
-IMAGES=$(docker compose -f ../docker/compose.yaml -f ../docker/compose.ai.yaml config --images)
+IMAGES=$(docker compose -f "$PROJECT_DIR/docker/compose.yaml" -f "$PROJECT_DIR/docker/compose.ai.yaml" config --images)
 
 echo "Detected Images:"
 echo "$IMAGES"

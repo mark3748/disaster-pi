@@ -8,10 +8,6 @@ To run it:
 sudo /opt/disaster-pi/scripts/freeze-images.sh
 ```
 
-**OPTIONAL:**
-Copy the script to your scripts folder:
-
-
 # Backup
 There is an included restic backup script located at `/opt/disaster-pi/scripts/backup-daily.sh` that can be used to create backups of your `disaster-pi` data to an external drive. 
 
