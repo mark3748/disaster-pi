@@ -16,7 +16,8 @@ AI_MODEL="qwen2.5:1.5b" # Change to 'phi-3' if preferred
 DNS_DEST="/etc/dnsmasq.d/01-DNS-survival-lan.conf"
 
 # --- Prompt for AI ---
-read -r -p "${ENABLE_AI:-Enable AI Integration? (y/N) } " REPLY
+## Ensure your device is capable before enabling AI features. See README for details.
+read -r -p "${ENABLE_AI:-Enable AI Integration (Not recommended for anything below a Pi 5 8GB). (y/N) } " REPLY
 REPLY=${REPLY:-n}
 case "$REPLY" in
     [Yy]* ) ENABLE_AI=true ;;
@@ -60,7 +61,7 @@ fi
 
 # 3. Create Directories & Fix Permissions
 echo "[+] Creating project directories..."
-mkdir -p "$INSTALL_DIR"/{files/zim-library,docker,homepage,mealie-data,pgdata,ollama_data,open-webui-data}
+mkdir -p "$INSTALL_DIR"/{files/zim-library,docker,homepage,mealie-data,pgdata,scripts,ollama_data,open-webui-data}
 
 # Copy Configs
 echo "[+] Copying configurations..."
@@ -69,8 +70,10 @@ cp -r ./configs/init-multiple-dbs.sh "$INSTALL_DIR/init-multiple-dbs.sh"
 cp -r ./configs/dnsmasq.conf "$DNS_DEST"
 cp -r ./homepage "$INSTALL_DIR/"
 cp -r ./docker "$INSTALL_DIR/"
-
+echo "[+] Installing helper scripts..."
+cp -r ./scripts/* "$INSTALL_DIR/scripts/"
 # Make scripts executable
+chmod +x "$INSTALL_DIR/scripts/"*.sh
 chmod +x "$INSTALL_DIR/init-multiple-dbs.sh"
 
 # FORCE PERMISSIONS for User 1000
