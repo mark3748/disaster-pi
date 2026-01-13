@@ -15,6 +15,7 @@ There is an included restic backup script located at `/opt/disaster-pi/scripts/b
 
 If you decide to change the backup location, make sure you update `USB_MOUNT="/mnt/usb_backup"` to the appropriate destination in the script!
 
+## Data Backups
 ### Why restic?
 We want to be able to keep our data safe. Recipes, guides, personal files, all important to keep safe. Manual backups are a chore and restic allows for very quick incremental backups, so your large ZIMs only need to copy when they change!
 
@@ -76,10 +77,10 @@ To run the restore from your USB drive (assuming mounted at `/mnt/usb_backup`):
 ```
 Follow the interactive prompts to select the snapshot you wish to restore. 
 
-### Full System Image
+## Full System Image
 Disaster Pi uses `image-backup` from the [seamusdemora/RonR-RPi-image-utils](https://github.com/seamusdemora/RonR-RPi-image-utils) repository to create a full system image backup. These backups are incremental, so they can be run on a schedule, if desired, without filling your backup drive.
 
-#### Initial setup
+### Initial setup
 You will need to run the setup script with `sudo /opt/disaster-pi/scripts/setup-image-backup.sh` once to setup the backup. Follow the instructions provided by the script to create the initial image. 
 ```bash
 	--- 💿 Starting Initial Image Creation ---
@@ -91,11 +92,11 @@ You will need to run the setup script with `sudo /opt/disaster-pi/scripts/setup-
 	Press Enter to launch image-backup...
 ```
 
-#### Usage
-###### Manual Usage:
+### Usage
+##### Manual Usage:
 You can update your image by running `sudo /opt/disaster-pi/scripts/backup-system.sh`
 
-###### Scheduled image updates:
+##### Scheduled image updates:
 You can run the script on a schedule using `sudo crontab -e`
 
 > [!WARNING]
