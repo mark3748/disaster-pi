@@ -12,25 +12,25 @@ LOG_FILE="/opt/disaster-pi/system-backup.log"
 
 # --- Validation ---
 if [ ! -f "/usr/local/sbin/image-backup" ]; then
-    echo "❌ image-backup tool not found. Run scripts/setup-image-backup.sh first."
-    exit 1
+	echo "❌ image-backup tool not found. Run scripts/setup-image-backup.sh first."
+	exit 1
 fi
 
 if ! mountpoint -q "$USB_MOUNT"; then
-    echo "❌ USB not mounted at $USB_MOUNT. Aborting."
-    exit 1
+	echo "❌ USB not mounted at $USB_MOUNT. Aborting."
+	exit 1
 fi
 
 if [ ! -f "$IMAGE_PATH" ]; then
-    echo "❌ Base image not found at $IMAGE_PATH."
-    echo "   Run scripts/setup-image-backup.sh manually to create the initial image."
-    exit 1
+	echo "❌ Base image not found at $IMAGE_PATH."
+	echo "   Run scripts/setup-image-backup.sh manually to create the initial image."
+	exit 1
 fi
 
-echo "--- 💿 Starting System Image Update: $(date) ---" >> "$LOG_FILE"
+echo "--- 💿 Starting System Image Update: $(date) ---" >>"$LOG_FILE"
 
 # Run the update
 # When an image path is provided as an argument, image-backup runs in update mode (rsync)
-/usr/local/sbin/image-backup "$IMAGE_PATH" >> "$LOG_FILE" 2>&1
+/usr/local/sbin/image-backup "$IMAGE_PATH" >>"$LOG_FILE" 2>&1
 
-echo "✅ System Image Updated: $(date)" >> "$LOG_FILE"
+echo "✅ System Image Updated: $(date)" >>"$LOG_FILE"

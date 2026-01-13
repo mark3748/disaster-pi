@@ -12,7 +12,7 @@ Disaster Pi turns a Raspberry Pi 5 into a completely offline, air-gapped informa
 * **Local AI (Ollama):** Optional integration with `qwen2.5:1.5b` or `phi-3` for offline reasoning and coding help.
 * **File Server:** Drag-and-drop file storage for maps, PDFs, and binaries.
 * **Smart DNS:** Automatic wildcard resolution (`*.survival.lan`)—no IP addresses to memorize.
-* **Scripts:** There are utility scripts to initialize a basic survival library, backup your data, and backup the docker images. See docs/user-guide.md for details
+* **Scripts:** There are utility scripts to initialize a basic survival library, backup your data, and backup the docker images. See [docs/user-guide.md](docs/user-guide.md) for details
 
 ## 🛠️ Hardware Requirements
 * **Raspberry Pi 5** (8GB RAM recommended for AI features).
