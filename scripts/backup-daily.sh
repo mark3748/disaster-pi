@@ -29,6 +29,10 @@ if [ ! -f "$USB_MOUNT/restic_binary" ]; then
     cp "$(which restic)" "$USB_MOUNT/restic_binary"
 fi
 
+# Copy the restore script to USB so we can run it from there in a disaster
+echo "[+] Copying restore script to USB..."
+cp "$PROJECT_DIR/scripts/restore-backup.sh" "$USB_MOUNT/restore-backup.sh"
+
 # 3. Restic Backup
 # Exclude the raw pgdata (since we have the dump)
 echo "[+] Running Restic..."

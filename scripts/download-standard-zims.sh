@@ -8,7 +8,7 @@ cd "$LIBRARY_DIR"
 
 echo "--- Starting Survival Library Download ---"
 echo "Target Directory: $LIBRARY_DIR"
-echo "Note: These files are large. Ensure you have ~50GB free."
+echo "Note: These files are large. Ensure you have ~20GB free." # Changed to ~20GB based on standard files, ~14GB with a little headroom.
 
 # Function to download with resume capability
 download_zim() {

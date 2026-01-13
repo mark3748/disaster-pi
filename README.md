@@ -23,6 +23,13 @@ Disaster Pi turns a Raspberry Pi 5 into a completely offline, air-gapped informa
 This project assumes you have already installed **RaspAP** on your Raspberry Pi to handle the Wi-Fi Hotspot creation.
 * [RaspAP Installation Guide](https://docs.raspap.com/)
 
+If you want to access the interface without connecting to the hotspot, you can add your Pi's IP to your system `hosts` file:
+```
+192.168.1.20 survival.lan # use the IP address from the interface you would like to access from, eth0 or wlan0
+```
+**NOTE:** this will override the "Magic" DNS provided by DNSMasq. You will not be able to access the dashboard while connected to the hotspot with this in your `hosts` file
+
+
 ## 🚀 Quick Start
 
 1.  **Clone the Repository**
@@ -58,7 +65,7 @@ This project assumes you have already installed **RaspAP** on your Raspberry Pi 
 To populate the offline library, you need `.zim` files.
 1.  Run the helper script to download the essentials (Medical, Repair, Survival):
     ```bash
-    sudo ./scripts/download-standard-zims.sh
+    ./scripts/download-standard-zims.sh
     ```
 2.  Or manually place your own `.zim` files in `/opt/disaster-pi/files/zim-library`.
 3.  Restart the Kiwix container: `docker restart disaster-pi-kiwix-1`
