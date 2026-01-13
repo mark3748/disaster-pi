@@ -1,5 +1,5 @@
 # Image Freeze
-You can create a backup/export of you `disaster-pi` docker images. This can be useful if you need to recover the device, or even setup a new device, without internet access.
+You can create a backup/export of your `disaster-pi` docker images. This can be useful if you need to recover the device, or even setup a new device, without internet access.
 
 The freeze script is automatically installed at `/opt/disaster-pi/scripts/freeze-images.sh`.
 
