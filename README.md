@@ -26,7 +26,7 @@ This project assumes you have already installed **RaspAP** on your Raspberry Pi 
 
 1.  **Clone the Repository**
     ```bash
-    git clone [https://github.com/mark3748/disaster-pi.git](https://github.com/mark3748/disaster-pi.git)
+    git clone https://github.com/mark3748/disaster-pi.git
     cd disaster-pi
     ```
 
