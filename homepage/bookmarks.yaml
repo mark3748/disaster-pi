@@ -1,0 +1,9 @@
+## Source-controlled bookmarks for the dashboard.
+## Prevents default bookmarks from being created, due to intended use as an offline tool, they would be useless.
+---
+- Admin
+  - RaspAP
+    - icon: raspAP-logo.svg
+      href "https://admin.survival.lan"
+      description: "RaspAP Admin Interface"
+  

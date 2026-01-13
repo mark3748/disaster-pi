@@ -1,0 +1,9 @@
+## Source-controlled services for the dashboard.
+## Prevents default services from being created, due to intended use as an offline tool, they would be useless.
+---
+- Infrastructure 
+  - postgresql
+    - icon: postgresql.svg
+      description: "PostgreSQL Database Service"
+      server: my-docker
+      container: disaster-pi-postgres-1

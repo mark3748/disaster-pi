@@ -13,7 +13,7 @@ services:
     labels:
       - "homepage.group=System"
       - "homepage.name=Caddy Proxy"
-      - "homepage.icon=caddy"
+      - "homepage.icon=caddy.svg"
       - "homepage.href=https://survival.lan" # Link to main dashboard
       - "homepage.description=Reverse Proxy for Services"
 
@@ -54,7 +54,7 @@ services:
     labels:
       - "homepage.group=Survival"
       - "homepage.name=Kiwix Library"
-      - "homepage.icon=kiwix"
+      - "homepage.icon=kiwix-light.svg"
       - "homepage.href=https://kiwix.survival.lan"
 
 ## Mealie Recipe Manager
@@ -78,7 +78,7 @@ services:
     labels:
       - "homepage.group=Survival"
       - "homepage.name=Mealie Recipes"
-      - "homepage.icon=mealie"
+      - "homepage.icon=mealie.svg"
       - "homepage.href=https://mealie.survival.lan"
       ## Optional: enable Mealie dashboard widget (requires an API token with read access)
       # - "homepage.widget.type=mealie"
@@ -100,7 +100,7 @@ services:
     labels:
       - "homepage.group=Survival"
       - "homepage.name=Files"
-      - "homepage.icon=sh-file-browser"
+      - "homepage.icon=filebrowser.svg"
       - "homepage.href=https://files.survival.lan"
       - "homepage.description=File Management"
       ## Optional: enable Filebrowser dashboard widget (use the credentials configured at first launch)

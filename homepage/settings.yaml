@@ -1,0 +1,6 @@
+## Source-controlled settings for the dashboard.
+## Sets title, description, and start URL for installable apps.
+---
+title: Disaster Pi Dashboard
+description: Centralized dashboard for accessing Disaster Pi services and settings.
+startUrl: https://survival.lan
