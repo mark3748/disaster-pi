@@ -5,6 +5,7 @@ All notable changes to the Disaster Pi project will be documented in this file.
 ## [Unreleased]
 
 ### Features
+- Added an image-based backup option for full system backups using `image-backup`.
 - Added `restore-backup.sh` script for easy restoration of backups.
 - Added utility scripts for daily backups (`backup-daily.sh`) and image freezing (`freeze-images.sh`).
 - Added initial Bill of Materials (BOM) and User Guide in `docs/`.
