@@ -3,7 +3,5 @@
 ---
 - Admin:
   - RaspAP:
-    - icon: raspap.png
+    - abbr: RA
       href: "https://admin.survival.lan"
-      description: "RaspAP Admin Interface"
-  
