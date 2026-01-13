@@ -24,7 +24,7 @@ echo "Saving to $BACKUP_DIR/$ARCHIVE_NAME..."
 echo "This will take a few minutes. Go check your solar panels."
 
 # Save all images into one tarball
-docker save -o "$BACKUP_DIR/$ARCHIVE_NAME" $IMAGES
+docker save -o "$BACKUP_DIR/$ARCHIVE_NAME" "$IMAGES"
 
 echo "✅ Backup Complete. Size: $(du -h "$BACKUP_DIR/$ARCHIVE_NAME" | cut -f1)"
 echo "To restore on a fresh Pi (No Internet needed):"

@@ -26,7 +26,7 @@ docker compose -f $PROJECT_DIR/docker/compose.yaml exec -t postgres pg_dumpall -
 # This ensures you can restore even if you can't 'apt install' later.
 if [ ! -f "$USB_MOUNT/restic_binary" ]; then
     echo "[+] Copying Restic binary to USB for emergency bootstrap..."
-    cp $(which restic) "$USB_MOUNT/restic_binary"
+    cp "$(which restic)" "$USB_MOUNT/restic_binary"
 fi
 
 # 3. Restic Backup
