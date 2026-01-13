@@ -12,8 +12,10 @@ echo "Note: These files are large. Ensure you have ~50GB free."
 
 # Function to download with resume capability
 download_zim() {
+    [[ -z "$1" ]] && return 1
     local url="$1"
-    local filename=$(basename "$url")
+    local filename
+    filename=$(basename "$url") || return 1
     local sha_url="${url}.sha256"
     
     echo "Processing: $filename"
