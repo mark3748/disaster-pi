@@ -19,7 +19,7 @@ echo "--- 🛡️ Starting Disaster Backup ---"
 # 1. Database Dump (Critical for Consistency)
 # We dump the DB to a file, so Restic backs up a clean SQL file instead of raw binary data.
 echo "[+] Dumping Databases..."
-docker compose -f $PROJECT_DIR/docker/compose.yaml exec -t postgres pg_dumpall -c -U admin > "$PROJECT_DIR/backups/full_db_dump.sql"
+docker compose -f $PROJECT_DIR/compose.yaml exec -t postgres pg_dumpall -c -U admin > "$PROJECT_DIR/backups/full_db_dump.sql"
 
 # 2. Bootstrap Safety (Save the tool with the data)
 # If the 'restic' binary isn't on the USB, copy it there.
