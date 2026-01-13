@@ -12,31 +12,31 @@ echo "Note: These files are large. Ensure you have ~20GB free." # Changed to ~20
 
 # Function to download with resume capability
 download_zim() {
-    [[ -z "$1" ]] && return 1
-    local url="$1"
-    local filename
-    filename=$(basename "$url") || return 1
-    local sha_url="${url}.sha256"
-    
-    echo "Processing: $filename"
+	[[ -z "$1" ]] && return 1
+	local url="$1"
+	local filename
+	filename=$(basename "$url") || return 1
+	local sha_url="${url}.sha256"
 
-    # 1. Grab the checksum file first (they are tiny)
-    wget -q "$sha_url" -O "${filename}.sha256"
+	echo "Processing: $filename"
 
-    # 2. Download/Resume the ZIM
-    # -c resumes, --retry-connrefused handles flaky networks
-    wget -c --retry-connrefused --tries=10 "$url"
+	# 1. Grab the checksum file first (they are tiny)
+	wget -q "$sha_url" -O "${filename}.sha256"
 
-    # 3. Verify Integrity
-    echo "Verifying integrity..."
-    # Kiwix sha256 files usually contain the filename, so we can use sha256sum -c
-    if sha256sum -c "${filename}.sha256" > /dev/null 2>&1; then
-        echo " - [SUCCESS] $filename is valid."
-        rm "${filename}.sha256" # Clean up the checksum file
-    else
-        echo " - [ERROR] $filename failed checksum! Suggest deleting and re-downloading."
-        return 1
-    fi
+	# 2. Download/Resume the ZIM
+	# -c resumes, --retry-connrefused handles flaky networks
+	wget -c --retry-connrefused --tries=10 "$url"
+
+	# 3. Verify Integrity
+	echo "Verifying integrity..."
+	# Kiwix sha256 files usually contain the filename, so we can use sha256sum -c
+	if sha256sum -c "${filename}.sha256" >/dev/null 2>&1; then
+		echo " - [SUCCESS] $filename is valid."
+		rm "${filename}.sha256" # Clean up the checksum file
+	else
+		echo " - [ERROR] $filename failed checksum! Suggest deleting and re-downloading."
+		return 1
+	fi
 }
 
 # 1. WikiMed (Medical Encyclopedia) - CRITICAL

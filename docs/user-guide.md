@@ -11,7 +11,7 @@ sudo /opt/disaster-pi/scripts/freeze-images.sh
 The script places the image bundle into `$INSTALLDIR/backups/` to ensure it is backed up alongside the rest of your data. You should run this after images are updated to ensure your backups include the correct image versions.
 
 # Backup
-There is an included restic backup script located at `/opt/disaster-pi/scripts/backup-daily.sh` that can be used to create backups of your `disaster-pi` data to an external drive. 
+There is an included restic backup script located at `/opt/disaster-pi/scripts/backup-daily.sh` that can be used to create backups of your `disaster-pi` data to an external drive. There is also a full image backup located at `/opt/disaster-pi/scripts/backup-system.yaml` to create system images than can be used to restore the entire system. These utilize separate scripts to allow for greater scheduling flexibility.
 
 If you decide to change the backup location, make sure you update `USB_MOUNT="/mnt/usb_backup"` to the appropriate destination in the script!
 
@@ -52,6 +52,7 @@ crontab -e
 
 This example runs the backup at 04:00 every day:
 ```bash
+# Daily Data Backup (Restic) - Every day at 4:00 AM
 0 4 * * * /opt/disaster-pi/scripts/backup-daily.sh >> /opt/disaster-pi/daily-backup.log 2>&1
 ```
 
@@ -74,3 +75,38 @@ To run the restore from your USB drive (assuming mounted at `/mnt/usb_backup`):
 /mnt/usb_backup/restore-backup.sh
 ```
 Follow the interactive prompts to select the snapshot you wish to restore. 
+
+## Full System Image
+Disaster Pi uses `image-backup` from the [seamusdemora/RonR-RPi-image-utils](https://github.com/seamusdemora/RonR-RPi-image-utils) repository to create a full system image backup. These backups are incremental, so they can be run on a schedule, if desired, without filling your backup drive.
+
+### Initial setup
+You will need to run the setup script with `sudo /opt/disaster-pi/scripts/setup-img-backup.sh` once to setup the backup. Follow the instructions provided by the script to create the initial image. 
+```bash
+	--- 💿 Starting Initial Image Creation ---"
+	You will be asked for:"
+	  1. Image file path (Default is correct, just hit Enter if prompted)"
+	  2. Initial size (Hit Enter for minimum)"
+      3. Added space (Type '2048' for 2GB of room for updates)"
+
+	Press Enter to launch image-backup...
+```
+
+### Usage
+#### Manual Usage:
+You can update your image by running `sudo /opt/disaster-pi/scripts/backup-system.sh`
+
+#### Scheduled image updates:
+You can run the script on a schedule using `sudo crontab -e`[^1].
+```bash
+sudo crontab -e
+```
+
+This example runs the script every Monday at 5:00 AM 
+```bash
+# Weekly System Image (OS/Kernel) - Mondays at 5:00 AM
+# Since this uses rsync, it only copies changed system files.
+0 5 * * 1 /opt/disaster-pi/scripts/backup-system.sh
+```
+
+
+[^1]: ⚠️ Important: The system backup script requires full access to the operating system. When setting up the schedule, ensure you are editing the root crontab by using sudo crontab -e.
