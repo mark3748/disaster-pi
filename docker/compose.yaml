@@ -35,7 +35,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secure_offline_password # Change this password to something secure
+      POSTGRES_PASSWORD: ${PG_ADMIN_PASSWORD} # Change this password to something secure
       POSTGRES_DB: admin # Default DB, additional DBs created via init script
     volumes:
       - ./pgdata:/var/lib/postgresql/data
@@ -71,7 +71,7 @@ services:
       DB_ENGINE: postgres
       POSTGRES_SERVER: postgres
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secure_offline_password
+      POSTGRES_PASSWORD: ${PG_ADMIN_PASSWORD}
       POSTGRES_DB: mealie
       BASE_URL: https://mealie.survival.lan
     restart: unless-stopped

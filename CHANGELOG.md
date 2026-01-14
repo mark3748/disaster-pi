@@ -2,9 +2,12 @@
 
 All notable changes to the Disaster Pi project will be documented in this file.
 
-## [Unreleased]
+## v1.0.0 - 13 January 2026
+
+Initial Release, feature complete basic, easy to customize survival library. More features to come, but this is a good starting place.
 
 ### Features
+- Implemented .env based variables for docker configs, improving security in preperation for v1.0.0 :)
 - Added an image-based backup option for full system backups using `image-backup`.
 - Added `restore-backup.sh` script for easy restoration of backups.
 - Added utility scripts for daily backups (`backup-daily.sh`) and image freezing (`freeze-images.sh`).

@@ -24,6 +24,10 @@ case "$REPLY" in
     [Nn]* ) ENABLE_AI=false ;;
 esac
 
+#--- Prompt for Postgres Password ---
+read -r -p "Enter desired Postgres 'admin' user password (default: 'disasterpiadmin'): " INPUT_PG_PASSWORD
+PG_ADMIN_PASSWORD=${INPUT_PG_PASSWORD:-disasterpiadmin}
+
 echo "--- Disaster Pi Setup Initiated ---"
 
 ## Stage 1: Setup system, get Docker enabled and all that jazz.
@@ -94,6 +98,14 @@ if systemctl is-active --quiet dnsmasq; then
     systemctl reload dnsmasq
 fi
 
+# Save .env File before launching stack
+echo "[+] Saving .env configuration..."
+{
+    echo "PG_ADMIN_PASSWORD=$PG_ADMIN_PASSWORD"
+    echo "ENABLE_AI=$ENABLE_AI"
+} >> $INSTALL_DIR/.env
+chmod 600 "$INSTALL_DIR/.env" # Make it readable only by root/owner
+
 # 4. Launch Stack
 cd "$INSTALL_DIR"
 if [[ $ENABLE_AI == true ]]; then
@@ -114,6 +126,8 @@ if [[ $ENABLE_AI == true ]]; then
     docker compose exec ollama ollama pull "$AI_MODEL"
 fi
 
+
+# 6. Final Instructions
 echo "--- Setup Complete! ---"
 echo "Dashboard: https://survival.lan"
 echo "Admin:     https://admin.survival.lan"
