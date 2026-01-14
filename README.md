@@ -1,7 +1,9 @@
 # Disaster Pi 🆘🥧
 **The Offline Survival & Information Appliance**
 
-![Status](https://img.shields.io/badge/Status-Prototype-orange) ![Docker](https://img.shields.io/badge/Docker-Compose-blue) ![Raspberry Pi](https://img.shields.io/badge/Hardware-RPI5-C51A4A)
+![Status](https://img.shields.io/badge/Release-v1.0.0-green)
+
+![Raspberry Pi](https://img.shields.io/badge/-Raspberry_Pi-C51A4A?style=for-the-badge&logo=Raspberry-Pi) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![Bash Script](https://img.shields.io/badge/bash_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white) ![YAML](https://img.shields.io/badge/yaml-%23ffffff.svg?style=for-the-badge&logo=yaml&logoColor=151515)
 
 Disaster Pi turns a Raspberry Pi 5 into a completely offline, air-gapped information hub. It provides medical encyclopedias, survival guides, repair manuals, topographic maps, and even a local AI coding assistant—all accessible via a Wi-Fi hotspot when the grid is down.
 
