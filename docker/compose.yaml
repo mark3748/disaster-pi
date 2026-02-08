@@ -109,12 +109,12 @@ services:
       # - "homepage.widget.username=<replace-with-username>"
       # - "homepage.widget.password=<replace-with-password>"
   homebox:
-    image: ghcr.io/sysadminmedia/homebox:latest
+    image: ghcr.io/sysadminsmedia/homebox:latest
     restart: unless-stopped
     volumes:
       - ./homebox-data:/data
     environment:
-      - HBOX_LOG_LEVEL=info
+      - HBOX_LOG_LEVEL=debug
       - HBOX_LOG_FORMAT=text
       - HBOX_WEB_MAX_UPLOAD_SIZE=10
       - HBOX_OPTIONS_ALLOW_ANALYTICS=false
