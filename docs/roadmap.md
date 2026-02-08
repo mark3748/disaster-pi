@@ -6,7 +6,7 @@ The following is a living document of the wants, needs, and "wouldn't it be cool
 
 *Focus: Stability, Usability, and Logistics.*
 
-* [ ] **Inventory System (Logistics):** Implementation of **HomeBox** to track physical assets (batteries, meds, spare parts). *Status: In Progress.*
+* [x] **Inventory System (Logistics):** Implementation of **HomeBox** to track physical assets (batteries, meds, spare parts). *Status: Done.*
 * [ ] **SDR Integration (Signal Intel):** Support for RTL-SDR v3 dongles via OpenWebRX+ or similar. Turn the Pi into a spectrum scanner for weather, police, and HAM bands.
 * [ ] **"Scavenger Mode" (Auto-Update):** A NetworkManager dispatcher script that detects an active internet connection (Ethernet/Uplink) and automatically runs:
     * `docker compose pull` (Update images)

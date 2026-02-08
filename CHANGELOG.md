@@ -2,6 +2,17 @@
 
 All notable changes to the Disaster Pi project will be documented in this file.
 
+## v1.1.0 - 8 February 2026
+
+### Features
+- Added Homebox service for home inventory management.
+- Added Homebox to the homepage dashboard.
+- Added Homebox to the service endpoints list.
+- Added Homebox to the credentials list.
+
+### Bug Fixes
+- Fixed permissions for homebox-data directory.
+
 ## v1.0.0 - 13 January 2026
 
 Initial Release, feature complete basic, easy to customize survival library. More features to come, but this is a good starting place.

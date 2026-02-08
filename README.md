@@ -61,6 +61,7 @@ If you want to access the interface without connecting to the hotspot, you can a
 | **Kiwix** | `https://kiwix.survival.lan` | Offline Wikis & Medical Info |
 | **Mealie** | `https://mealie.survival.lan` | Recipes & Meal Planning |
 | **FileBrowser** | `https://files.survival.lan` | File Management |
+| **Homebox** | `https://homebox.survival.lan` | Home Inventory Management |
 | **Ollama** | `https://ai.survival.lan` | AI API (Optional) |
 
 ## 📚 Adding Content (ZIM Files)
@@ -74,9 +75,10 @@ To populate the offline library, you need `.zim` files.
 
 ## 🔐 Credentials
 * **FileBrowser:** The default password is generated on first launch.
-    * Get it via: `docker compose logs filebrowser | grep admin`
+    * Get it via: `docker logs disaster-pi-filebrowser-1 | grep admin`
 * **Mealie:** Default: `changeme@example.com` / `MyPassword`
 * **Postgres:** configured in `docker/compose.yaml` (Default: `secure_offline_password`).
+* **Homebox:** Click "Register" on the login page to create an account.
 
 ## ⚠️ Notes
 * **HTTPS:** This project uses self-signed certificates via Caddy's internal CA. You will get a browser warning on the first visit. This is normal for an offline `.lan` domain.
