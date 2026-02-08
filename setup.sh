@@ -87,6 +87,9 @@ echo "[+] Fixing Postgres permissions..."
 chown -R 999:999 "$INSTALL_DIR/pgdata"
 echo "[+] Fixing Mealie permissions..."
 chown -R 911:911 "$INSTALL_DIR/mealie-data"
+echo "[+] Fixing Homebox permissions..."
+chown -R 65532:65532 "$INSTALL_DIR/homebox-data"
+chmod -R 775 "$INSTALL_DIR/homebox-data"
 # Required for AI, running regardless of AI option for UX reasons. 
 # If you change deployment mode later, they'll be set!
 echo "[+] chmod 777 to AI data directories..."
