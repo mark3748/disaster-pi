@@ -108,6 +108,30 @@ services:
       # - "homepage.widget.url=http://filebrowser:80"
       # - "homepage.widget.username=<replace-with-username>"
       # - "homepage.widget.password=<replace-with-password>"
+  homebox:
+    image: ghcr.io/sysadminmedia/homebox:latest
+    restart: unless-stopped
+    volumes:
+      - ./homebox-data:/data
+    environment:
+      - HBOX_LOG_LEVEL=info
+      - HBOX_LOG_FORMAT=text
+      - HBOX_WEB_MAX_UPLOAD_SIZE=10
+      - HBOX_OPTIONS_ALLOW_ANALYTICS=false
+      - HBOX_DATABASE_TYPE=postgres
+      - HBOX_DATABASE_HOST=postgres
+      - HBOX_DATABASE_PORT=5432
+      - HBOX_DATABASE_USER=admin
+      - HBOX_DATABASE_PASSWORD=${PG_ADMIN_PASSWORD}
+      - HBOX_DATABASE_NAME=homebox
+    # ports:
+    #   - 3100:7745 # Optional: expose Homebox on its own port (not needed if using Caddy)
+    labels:
+      - "homepage.group=Survival"
+      - "homepage.name=Homebox"
+      - "homepage.icon=homebox.svg"
+      - "homepage.href=https://homebox.survival.lan"
+      - "homepage.description=Home Inventory Management"
 
 volumes:
   caddy_data:

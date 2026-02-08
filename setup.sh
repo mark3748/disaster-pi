@@ -65,7 +65,7 @@ fi
 
 # 3. Create Directories & Fix Permissions
 echo "[+] Creating project directories..."
-mkdir -p "$INSTALL_DIR"/{files/zim-library,docker,homepage,mealie-data,pgdata,scripts,ollama_data,open-webui-data}
+mkdir -p "$INSTALL_DIR"/{files/zim-library,docker,homepage,mealie-data,pgdata,scripts,ollama_data,open-webui-data,homebox-data}
 
 # Copy Configs
 echo "[+] Copying configurations..."
