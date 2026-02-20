@@ -11,31 +11,79 @@ fi
 set -e
 
 # Configuration
-INSTALL_DIR="/opt/disaster-pi"
+INSTALL_DIR="${INSTALL_DIR:-/opt/disaster-pi}"
 AI_MODEL="qwen2.5:1.5b" # Change to 'phi-3' if preferred
 DNS_DEST="/etc/dnsmasq.d/01-DNS-survival-lan.conf"
 GITPATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# --- Prompt for AI ---
-## Ensure your device is capable before enabling AI features. See README for details.
-read -r -p "${ENABLE_AI:-Enable AI Integration (Not recommended for anything below a Pi 5 8GB). (y/N) } " REPLY
-REPLY=${REPLY:-n}
-case "$REPLY" in
-    [Yy]* ) ENABLE_AI=true ;;
-    [Nn]* ) ENABLE_AI=false ;;
-esac
+# Safely read .env as data, bypassing execution vulnerabilities
+if [ -f "$INSTALL_DIR/.env" ]; then
+    echo "[+] Loading configuration from $INSTALL_DIR/.env"
+    while IFS='=' read -r key value; do
+        # Skip comments and empty lines
+        [[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
+        
+        # Strip potential surrounding single or double quotes from the value
+        value="${value%\"}"
+        value="${value#\"}"
+        value="${value%\'}"
+        value="${value#\'}"
+        
+        # Safely assign and export the variable
+        export "$key=$value"
+    done < "$INSTALL_DIR/.env"
+fi
 
-# --- Prompt for Docking Mode ---
-read -r -p "${ENABLE_DOCKING:-Enable Docking Mode (runs update script when eth0 connects)? (y/N) } " REPLY
-REPLY=${REPLY:-n}
-case "$REPLY" in
-    [Yy]* ) ENABLE_DOCKING=true ;;
-    [Nn]* ) ENABLE_DOCKING=false ;;
-esac
+# Set defaults if not loaded from .env
+ENABLE_AI=${ENABLE_AI:-false}
+ENABLE_DOCKING=${ENABLE_DOCKING:-false}
+PG_ADMIN_PASSWORD=${PG_ADMIN_PASSWORD:-disasterpiadmin}
 
-#--- Prompt for Postgres Password ---
-read -r -p "Enter desired Postgres 'admin' user password (default: 'disasterpiadmin'): " INPUT_PG_PASSWORD
-PG_ADMIN_PASSWORD=${INPUT_PG_PASSWORD:-disasterpiadmin}
+# --- Whiptail Menu System ---
+
+# Ensure whiptail is available
+if ! command -v whiptail &> /dev/null; then
+    echo "[!] whiptail not found. Installing..."
+    apt-get update && apt-get install -y whiptail
+fi
+
+# 1. Prompt for AI
+AI_MSG="Enable AI Integration?\n\nNot recommended for anything below a Pi 5 8GB. This will install Ollama and Open WebUI.\n\nCurrent Status: $( [[ $ENABLE_AI == true ]] && echo "ENABLED" || echo "DISABLED" )"
+if [[ $ENABLE_AI == true ]]; then
+    if whiptail --title "AI Integration" --yesno "$AI_MSG" 12 60; then
+        ENABLE_AI=true
+    else
+        ENABLE_AI=false
+    fi
+else
+    if whiptail --title "AI Integration" --yesno "$AI_MSG" 12 60 --defaultno; then
+        ENABLE_AI=true
+    else
+        ENABLE_AI=false
+    fi
+fi
+
+# 2. Prompt for Docking Mode
+DOCK_MSG="Enable Docking Mode?\n\nRuns update script when eth0 connects. Recommended for portable 'field' units that sync when returned to base.\n\nCurrent Status: $( [[ $ENABLE_DOCKING == true ]] && echo "ENABLED" || echo "DISABLED" )"
+if [[ $ENABLE_DOCKING == true ]]; then
+    if whiptail --title "Docking Mode" --yesno "$DOCK_MSG" 12 60; then
+        ENABLE_DOCKING=true
+    else
+        ENABLE_DOCKING=false
+    fi
+else
+    if whiptail --title "Docking Mode" --yesno "$DOCK_MSG" 12 60 --defaultno; then
+        ENABLE_DOCKING=true
+    else
+        ENABLE_DOCKING=false
+    fi
+fi
+
+# 3. Prompt for Postgres Password
+PG_ADMIN_PASSWORD_TMP=$(whiptail --title "Database Security" --inputbox "Enter desired Postgres 'admin' user password:" 10 60 "$PG_ADMIN_PASSWORD" 3>&1 1>&2 2>&3)
+if [ $? -eq 0 ]; then
+    PG_ADMIN_PASSWORD="$PG_ADMIN_PASSWORD_TMP"
+fi
 
 echo "--- Disaster Pi Setup Initiated ---"
 
@@ -95,6 +143,9 @@ if [[ $ENABLE_DOCKING == true ]]; then
     chown root:root /etc/NetworkManager/dispatcher.d/99-docking-mode
     chmod 755 /etc/NetworkManager/dispatcher.d/99-docking-mode
     systemctl enable --now NetworkManager-dispatcher.service # Ensure the dispatcher service is running or the script won't run when the interface comes up.
+else
+    echo "[+] Disabling Docking Mode..."
+    rm -f /etc/NetworkManager/dispatcher.d/99-docking-mode
 fi
 
 # FORCE PERMISSIONS for User 1000
@@ -121,12 +172,12 @@ fi
 # Save .env File before launching stack
 echo "[+] Saving .env configuration..."
 {
-    echo "PG_ADMIN_PASSWORD=$PG_ADMIN_PASSWORD"
-    echo "ENABLE_AI=$ENABLE_AI"
-    echo "ENABLE_DOCKING=$ENABLE_DOCKING"
-    echo "GITPATH=$GITPATH"
-    echo "INSTALL_DIR=$INSTALL_DIR"
-} > $INSTALL_DIR/.env
+    printf "%s=%s\n" "PG_ADMIN_PASSWORD" "$PG_ADMIN_PASSWORD"
+    printf "%s=%s\n" "ENABLE_AI" "$ENABLE_AI"
+    printf "%s=%s\n" "ENABLE_DOCKING" "$ENABLE_DOCKING"
+    printf "%s=%s\n" "GITPATH" "$GITPATH"
+    printf "%s=%s\n" "INSTALL_DIR" "$INSTALL_DIR"
+} > "$INSTALL_DIR/.env"
 chmod 600 "$INSTALL_DIR/.env" # Make it readable only by root/owner
 
 # 4. Launch Stack
@@ -134,11 +185,11 @@ cd "$INSTALL_DIR"
 if [[ $ENABLE_AI == true ]]; then
     echo "[+] Launching Stack (Standard + AI)..."
     cp ./docker/compose.yaml ./docker/compose.ai.yaml .
-    docker compose -f compose.yaml -f compose.ai.yaml up -d
+    docker compose -f compose.yaml -f compose.ai.yaml up -d --remove-orphans
 else
     echo "[+] Launching Stack (Standard)..."
     cp ./docker/compose.yaml .
-    docker compose up -d
+    docker compose up -d --remove-orphans
 fi
 
 # 5. AI Model Pull (Conditional)

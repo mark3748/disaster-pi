@@ -2,6 +2,20 @@
 
 All notable changes to the Disaster Pi project will be documented in this file.
 
+## v1.3.0 - 20 February 2026
+
+### Features
+- Implemented Interactive Setup TUI using whiptail.
+- Implemented `.env` read in `setup.sh` to allow new TUI to be used as a configuration tool in addition to installation.
+- `setup.sh` now properly handles optional feature toggles.
+    - added `--remove-orphans` flag to `docker compose up` commands to remove orphaned containers after feature is disabled.
+    - added cleanup step to ensure disabling docking mode removes the dispatcher script from `/etc/NetworkManager/dispatcher.d/`.
+    - should properly clean the system state when disabling features.
+
+### Bug Fixes
+- Fixed `setup.sh` to properly save .env variables and handle optional feature toggles.
+- Fixed `run-updates.sh` to properly handle optional feature toggles.
+
 ## v1.2.0 - 19 February 2026
 
 ### Features

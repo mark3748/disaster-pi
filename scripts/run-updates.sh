@@ -6,8 +6,22 @@ set -euo pipefail
 LOGFILE="/opt/disaster-pi/logs/update.log"
 INSTALL_DIR="/opt/disaster-pi"
 
+# Safely read .env as data, bypassing execution vulnerabilities
 if [ -f "$INSTALL_DIR/.env" ]; then
-    source "$INSTALL_DIR/.env"
+    echo "[+] Loading configuration from $INSTALL_DIR/.env"
+    while IFS='=' read -r key value; do
+        # Skip comments and empty lines
+        [[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
+        
+        # Strip potential surrounding single or double quotes from the value
+        value="${value%\"}"
+        value="${value#\"}"
+        value="${value%\'}"
+        value="${value#\'}"
+        
+        # Safely assign and export the variable
+        export "$key=$value"
+    done < "$INSTALL_DIR/.env"
 fi
 
 echo "Starting updates at $(date)" >> "$LOGFILE"
@@ -58,8 +72,8 @@ if [[ "$ENABLE_AI" == "true" ]]; then
     sudo docker compose -f compose.ai.yaml pull >> "$LOGFILE" 2>&1
     echo "Updating containers (AI Enabled)..." >> "$LOGFILE"
     # Re-launch stack to apply any changes from the synced compose files
-    sudo docker compose -f compose.yaml -f compose.ai.yaml up -d >> "$LOGFILE" 2>&1
+    sudo docker compose -f compose.yaml -f compose.ai.yaml up -d --remove-orphans >> "$LOGFILE" 2>&1
 else
     echo "Updating containers (Standard)..." >> "$LOGFILE"
-    sudo docker compose -f compose.yaml up -d >> "$LOGFILE" 2>&1
+    sudo docker compose -f compose.yaml up -d --remove-orphans >> "$LOGFILE" 2>&1
 fi
