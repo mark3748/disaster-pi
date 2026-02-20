@@ -15,7 +15,7 @@ Disaster Pi turns a Raspberry Pi 5 into a completely offline, air-gapped informa
 * **File Server:** Drag-and-drop file storage for maps, PDFs, and binaries.
 * **Smart DNS:** Automatic wildcard resolution (`*.survival.lan`)—no IP addresses to memorize.
 * **Docking Mode:** Automatically update the system, sync from git to ensure config files/scripts are current, and update Docker containers upon network connection.
-* **Scripts:** There are utility scripts to initialize a basic survival library, backup your data, backup the docker images, and manually run updates (`run-updates.sh`). See [docs/user-guide.md](docs/user-guide.md) for details
+* **Scripts:** Utility scripts are provided to initialize a basic survival library, back up your data, back up the Docker images, and manually run updates via `run-updates.sh` (triggers the same update flow as Docking Mode when the Pi has internet access). See [docs/user-guide.md](docs/user-guide.md) for additional details on the other scripts.
 
 ## 🛠️ Hardware Requirements
 * **Raspberry Pi 5** (8GB RAM recommended for AI features).
