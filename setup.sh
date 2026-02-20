@@ -91,7 +91,9 @@ chmod +x "$INSTALL_DIR/init-multiple-dbs.sh"
 if [[ $ENABLE_DOCKING == true ]]; then
     echo "[+] Enabling Docking Mode..."
     cp "$INSTALL_DIR/scripts/99-docking-mode.sh" /etc/NetworkManager/dispatcher.d/99-docking-mode
-    chmod +x /etc/NetworkManager/dispatcher.d/99-docking-mode
+    chown root:root /etc/NetworkManager/dispatcher.d/99-docking-mode
+    chmod 755 /etc/NetworkManager/dispatcher.d/99-docking-mode
+    systemctl enable --now NetworkManager-dispatcher.service # Ensure the dispatcher service is running or the script won't run when the interface comes up.
 fi
 
 # FORCE PERMISSIONS for User 1000
