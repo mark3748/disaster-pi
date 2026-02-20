@@ -2,7 +2,7 @@
 
 The following is a living document of the wants, needs, and "wouldn't it be cool if" features for Disaster Pi. Priorities are subject to change based on hardware availability and the encroaching apocalypse.
 
-## 🛠️ Phase 1: Operational Refinement (v1.1 - v1.2)
+## 🛠️ Phase 1: Operational Refinement (v1.1 - v1.4)
 
 *Focus: Stability, Usability, and Logistics.*
 
@@ -17,7 +17,9 @@ The following is a living document of the wants, needs, and "wouldn't it be cool
     Setup allows for optional enabling of this feature. Script updates all components automatically.
 
 
-* [ ] **Interactive Setup (TUI):** Migrate `setup.sh` to a menu-driven interface (using `whiptail` or `dialog`). As the stack grows (AI, SDR, Inventory), users need to toggle modules ON/OFF easily without editing YAML.
+* [x] **Interactive Setup (TUI):** Migrate `setup.sh` to a menu-driven interface (using `whiptail` or `dialog`). As the stack grows (AI, SDR, Inventory), users need to toggle modules ON/OFF easily without editing YAML.
+    **STATUS: Completed**
+    Setup allows for optional enabling of features. Script updates all components automatically.
 * [ ] **Watchdog Services:** A systemd service to monitor container health and auto-heal the stack if the Docker daemon hangs.
 
 ## 📡 Phase 2: Hardware & Expansion
