@@ -1,7 +1,7 @@
 # Disaster Pi 🆘🥧
 **The Offline Survival & Information Appliance**
 
-![Status](https://img.shields.io/badge/Release-v1.0.0-green)
+![Status](https://img.shields.io/badge/Release-v1.2.0-green)
 
 ![Raspberry Pi](https://img.shields.io/badge/-Raspberry_Pi-C51A4A?style=for-the-badge&logo=Raspberry-Pi) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![Bash Script](https://img.shields.io/badge/bash_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white) ![YAML](https://img.shields.io/badge/yaml-%23ffffff.svg?style=for-the-badge&logo=yaml&logoColor=151515)
 
@@ -14,7 +14,8 @@ Disaster Pi turns a Raspberry Pi 5 into a completely offline, air-gapped informa
 * **Local AI (Ollama):** Optional integration with `qwen2.5:1.5b` or `phi-3` for offline reasoning and coding help.
 * **File Server:** Drag-and-drop file storage for maps, PDFs, and binaries.
 * **Smart DNS:** Automatic wildcard resolution (`*.survival.lan`)—no IP addresses to memorize.
-* **Scripts:** There are utility scripts to initialize a basic survival library, backup your data, and backup the docker images. See [docs/user-guide.md](docs/user-guide.md) for details
+* **Docking Mode:** Automatically update the system, sync from git to ensure config files/scripts are current, and update Docker containers upon network connection.
+* **Scripts:** There are utility scripts to initialize a basic survival library, backup your data, backup the docker images, and manually run updates (`run-updates.sh`). See [docs/user-guide.md](docs/user-guide.md) for details
 
 ## 🛠️ Hardware Requirements
 * **Raspberry Pi 5** (8GB RAM recommended for AI features).
