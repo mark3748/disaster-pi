@@ -1,4 +1,4 @@
-# Disaster Pi 🆘🥧
+# Disaster Pi
 **The Offline Survival & Information Appliance**
 
 ![Status](https://img.shields.io/badge/Release-v1.2.0-green)
@@ -7,7 +7,8 @@
 
 Disaster Pi turns a Raspberry Pi 5 into a completely offline, air-gapped information hub. It provides medical encyclopedias, survival guides, repair manuals, topographic maps, and even a local AI coding assistant—all accessible via a Wi-Fi hotspot when the grid is down.
 
-## 🌟 Features
+## Features
+* **Interactive Setup:** An easy-to-use TUI (Text User Interface) installer that walks you through configuration and manages optional features.
 * **Central Dashboard:** A clean homepage to access all services (`https://survival.lan`).
 * **Offline Library (Kiwix):** Wikimed (Medical), iFixit (Repair), Appropedia (Sustainability), and Wikipedia.
 * **Recipe Database (Mealie):** Store and organize food prep/ration recipes without internet.
@@ -17,12 +18,12 @@ Disaster Pi turns a Raspberry Pi 5 into a completely offline, air-gapped informa
 * **Docking Mode:** Automatically update the system, sync from git to ensure config files/scripts are current, and update Docker containers upon network connection.
 * **Scripts:** Utility scripts are provided to initialize a basic survival library, back up your data, back up the Docker images, and manually run updates via `run-updates.sh` (triggers the same update flow as Docking Mode when the Pi has internet access). See [docs/user-guide.md](docs/user-guide.md) for additional details on the other scripts.
 
-## 🛠️ Hardware Requirements
+## Hardware Requirements
 * **Raspberry Pi 5** (8GB RAM recommended for AI features).
 * **NVMe HAT + SSD:** Recommended over SD cards for database reliability.
 * **Power Bank / Solar:** For true off-grid usage.
 
-## 📋 Prerequisites
+## Prerequisites
 This project assumes you have already installed **RaspAP** on your Raspberry Pi to handle the Wi-Fi Hotspot creation.
 * [RaspAP Installation Guide](https://docs.raspap.com/)
 
@@ -33,7 +34,7 @@ If you want to access the interface without connecting to the hotspot, you can a
 **NOTE:** this will override the "Magic" DNS provided by DNSMasq. You will not be able to access the dashboard while connected to the hotspot with this in your `hosts` file
 
 
-## 🚀 Quick Start
+## Quick Start
 
 1.  **Clone the Repository**
     ```bash
@@ -42,11 +43,11 @@ If you want to access the interface without connecting to the hotspot, you can a
     ```
 
 2.  **Run the Installer**
-    This script will configure Docker, fix RaspAP ports, and deploy the stack.
+    This script will configure Docker, fix RaspAP ports, and deploy the stack via an interactive TUI.
     ```bash
     sudo ./setup.sh
     ```
-    *You will be asked if you want to enable the AI integration during setup.*
+    *You can also run this script later to reconfigure your setup or toggle optional features.*
 
 3.  **Access the System**
     Connect to your Pi's Wi-Fi hotspot and navigate to:
@@ -54,7 +55,7 @@ If you want to access the interface without connecting to the hotspot, you can a
     * **Files:** [https://files.survival.lan](https://files.survival.lan)
     * **Admin:** [https://admin.survival.lan](https://admin.survival.lan) (RaspAP)
 
-## 📂 Service Endpoints
+## Service Endpoints
 
 | Service | URL | Description |
 | :--- | :--- | :--- |
@@ -65,7 +66,7 @@ If you want to access the interface without connecting to the hotspot, you can a
 | **Homebox** | `https://homebox.survival.lan` | Home Inventory Management |
 | **Ollama** | `https://ai.survival.lan` | AI API (Optional) |
 
-## 📚 Adding Content (ZIM Files)
+## Adding Content (ZIM Files)
 To populate the offline library, you need `.zim` files.
 1.  Run the helper script to download the essentials (Medical, Repair, Survival):
     ```bash
@@ -74,16 +75,16 @@ To populate the offline library, you need `.zim` files.
 2.  Or manually place your own `.zim` files in `/opt/disaster-pi/files/zim-library`.
 3.  Restart the Kiwix container: `docker restart disaster-pi-kiwix-1`
 
-## 🔐 Credentials
+## Credentials
 * **FileBrowser:** The default password is generated on first launch.
     * Get it via: `docker logs disaster-pi-filebrowser-1 | grep admin`
 * **Mealie:** Default: `changeme@example.com` / `MyPassword`
 * **Postgres:** configured in `docker/compose.yaml` (Default: `secure_offline_password`).
 * **Homebox:** Click "Register" on the login page to create an account.
 
-## ⚠️ Notes
+## Notes
 * **HTTPS:** This project uses self-signed certificates via Caddy's internal CA. You will get a browser warning on the first visit. This is normal for an offline `.lan` domain.
 * **AI Performance:** On a Pi 5, the 1.5B model generates text at a readable speed. Heavier models (7B+) are not recommended.
 
-## 📜 License
+## License
 MIT License
