@@ -7,7 +7,10 @@
 #
 
 LOGFILE="/opt/disaster-pi/logs/update.log"
-AI=true
+
+if [ -f /opt/disaster-pi/.env ]; then
+    source /opt/disaster-pi/.env
+fi
 
 echo "Starting updates at $(date)" >> $LOGFILE
 
@@ -23,11 +26,11 @@ cd /opt/disaster-pi || exit
 
 sudo docker compose -f compose.yaml pull >> $LOGFILE 2>&1
 
-if [[ $AI ]]; then
-	sudo docker compose -f compose.ai.yaml pull >> $LOGFILE 2>&1
-	echo "Updating containers as needed..." >> $LOGFILE
-	sudo docker compose -f compose.yaml -f compose.ai.yaml up -d >> $LOGFILE 2>&1
+if [[ "$ENABLE_AI" == "true" ]]; then
+    sudo docker compose -f compose.ai.yaml pull >> $LOGFILE 2>&1
+    echo "Updating containers (AI Enabled)..." >> $LOGFILE
+    sudo docker compose -f compose.yaml -f compose.ai.yaml up -d >> $LOGFILE 2>&1
 else
-	echo "Updating containers as needed...">> $LOGFILE
-	sudo docker compose -f compose.yaml up -d >> $LOGFILE 2>&1
+    echo "Updating containers (Standard)..." >> $LOGFILE
+    sudo docker compose -f compose.yaml up -d >> $LOGFILE 2>&1
 fi

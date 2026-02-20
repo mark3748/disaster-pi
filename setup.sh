@@ -24,6 +24,14 @@ case "$REPLY" in
     [Nn]* ) ENABLE_AI=false ;;
 esac
 
+# --- Prompt for Docking Mode ---
+read -r -p "${ENABLE_DOCKING:-Enable Docking Mode (runs update script when eth0 connects)? (y/N) } " REPLY
+REPLY=${REPLY:-n}
+case "$REPLY" in
+    [Yy]* ) ENABLE_DOCKING=true ;;
+    [Nn]* ) ENABLE_DOCKING=false ;;
+esac
+
 #--- Prompt for Postgres Password ---
 read -r -p "Enter desired Postgres 'admin' user password (default: 'disasterpiadmin'): " INPUT_PG_PASSWORD
 PG_ADMIN_PASSWORD=${INPUT_PG_PASSWORD:-disasterpiadmin}
@@ -65,7 +73,7 @@ fi
 
 # 3. Create Directories & Fix Permissions
 echo "[+] Creating project directories..."
-mkdir -p "$INSTALL_DIR"/{files/zim-library,docker,homepage,mealie-data,pgdata,scripts,ollama_data,open-webui-data,homebox-data}
+mkdir -p "$INSTALL_DIR"/{files/zim-library,docker,homepage,mealie-data,pgdata,scripts,ollama_data,open-webui-data,homebox-data,logs}
 
 # Copy Configs
 echo "[+] Copying configurations..."
@@ -79,6 +87,12 @@ cp -r ./scripts/* "$INSTALL_DIR/scripts/"
 # Make scripts executable
 chmod +x "$INSTALL_DIR/scripts/"*.sh
 chmod +x "$INSTALL_DIR/init-multiple-dbs.sh"
+
+if [[ $ENABLE_DOCKING == true ]]; then
+    echo "[+] Enabling Docking Mode..."
+    cp "$INSTALL_DIR/scripts/00-docking-mode.sh" /etc/network/if-up.d/00-docking-mode
+    chmod +x /etc/network/if-up.d/00-docking-mode
+fi
 
 # FORCE PERMISSIONS for User 1000
 echo "[+] Enforcing 1000:1000 ownership on data directories..."
@@ -106,6 +120,7 @@ echo "[+] Saving .env configuration..."
 {
     echo "PG_ADMIN_PASSWORD=$PG_ADMIN_PASSWORD"
     echo "ENABLE_AI=$ENABLE_AI"
+    echo "ENABLE_DOCKING=$ENABLE_DOCKING"
 } >> $INSTALL_DIR/.env
 chmod 600 "$INSTALL_DIR/.env" # Make it readable only by root/owner
 
