@@ -15,9 +15,10 @@ fi
 echo "Starting updates at $(date)" >> $LOGFILE
 
 {
-	sudo apt update -y
-	sudo apt upgrade -y
-	sudo apt autoremove -y
+	export DEBIAN_FRONTEND=noninteractive
+	sudo apt-get update -y -q
+	sudo apt-get upgrade -y -q
+	sudo apt-get autoremove -y -q
 } >> $LOGFILE 2>&1
 
 echo "Updating Docker Images" >> $LOGFILE
