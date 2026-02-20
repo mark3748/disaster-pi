@@ -14,6 +14,7 @@ set -e
 INSTALL_DIR="/opt/disaster-pi"
 AI_MODEL="qwen2.5:1.5b" # Change to 'phi-3' if preferred
 DNS_DEST="/etc/dnsmasq.d/01-DNS-survival-lan.conf"
+GITPATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # --- Prompt for AI ---
 ## Ensure your device is capable before enabling AI features. See README for details.
@@ -123,7 +124,9 @@ echo "[+] Saving .env configuration..."
     echo "PG_ADMIN_PASSWORD=$PG_ADMIN_PASSWORD"
     echo "ENABLE_AI=$ENABLE_AI"
     echo "ENABLE_DOCKING=$ENABLE_DOCKING"
-} >> $INSTALL_DIR/.env
+    echo "GITPATH=$GITPATH"
+    echo "INSTALL_DIR=$INSTALL_DIR"
+} > $INSTALL_DIR/.env
 chmod 600 "$INSTALL_DIR/.env" # Make it readable only by root/owner
 
 # 4. Launch Stack

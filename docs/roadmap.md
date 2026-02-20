@@ -9,11 +9,12 @@ The following is a living document of the wants, needs, and "wouldn't it be cool
 * [x] **Inventory System (Logistics):** Implementation of **HomeBox** to track physical assets (batteries, meds, spare parts). *Status: Done.*
 * [ ] **SDR Integration (Signal Intel):** Support for RTL-SDR v3 dongles via OpenWebRX+ or similar. Turn the Pi into a spectrum scanner for weather, police, and HAM bands.
 * [x] **"Docking Mode" (formerly "Scavenger Mode"):** A NetworkManager dispatcher script that detects an active internet connection (Ethernet/Uplink) and automatically runs:
-    Partially implemented, currently only runs `docker compose pull` and `apt update && apt upgrade` (Update images and OS)
     * `docker compose pull` (Update images)
     * `apt update && apt upgrade` (Patch OS)
-    [ ] `git pull` (Update scripts) currently not implemented.
-    * *Goal: Plug it in, wait for the green light, unplug. No manual typing required.*
+    * `git pull` (Update scripts)
+    * sync updated scripts and config files to the production directory from git
+    **STATUS: Completed**
+    Setup allows for optional enabling of this feature. Script updates all components automatically.
 
 
 * [ ] **Interactive Setup (TUI):** Migrate `setup.sh` to a menu-driven interface (using `whiptail` or `dialog`). As the stack grows (AI, SDR, Inventory), users need to toggle modules ON/OFF easily without editing YAML.

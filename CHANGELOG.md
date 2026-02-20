@@ -7,6 +7,8 @@ All notable changes to the Disaster Pi project will be documented in this file.
 ### Features
 - Added docking mode to automatically update the system and Docker containers upon network connection.
 - Added a new script `scripts/run-updates.sh` to update the system and Docker containers.
+- Fully implemented git sync during updates. This will ensure new scripts and config files are always updated. 
+    - *Note: optional features will only be enabled if you run setup again*
 
 ## v1.1.0 - 8 February 2026
 
