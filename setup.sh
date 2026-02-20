@@ -90,8 +90,8 @@ chmod +x "$INSTALL_DIR/init-multiple-dbs.sh"
 
 if [[ $ENABLE_DOCKING == true ]]; then
     echo "[+] Enabling Docking Mode..."
-    cp "$INSTALL_DIR/scripts/00-docking-mode.sh" /etc/network/if-up.d/00-docking-mode
-    chmod +x /etc/network/if-up.d/00-docking-mode
+    cp "$INSTALL_DIR/scripts/99-docking-mode.sh" /etc/NetworkManager/dispatcher.d/99-docking-mode
+    chmod +x /etc/NetworkManager/dispatcher.d/99-docking-mode
 fi
 
 # FORCE PERMISSIONS for User 1000
