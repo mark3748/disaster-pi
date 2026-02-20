@@ -6,8 +6,22 @@ set -euo pipefail
 LOGFILE="/opt/disaster-pi/logs/update.log"
 INSTALL_DIR="/opt/disaster-pi"
 
+# Safely read .env as data, bypassing execution vulnerabilities
 if [ -f "$INSTALL_DIR/.env" ]; then
-    source "$INSTALL_DIR/.env"
+    echo "[+] Loading configuration from $INSTALL_DIR/.env"
+    while IFS='=' read -r key value; do
+        # Skip comments and empty lines
+        [[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
+        
+        # Strip potential surrounding single or double quotes from the value
+        value="${value%\"}"
+        value="${value#\"}"
+        value="${value%\'}"
+        value="${value#\'}"
+        
+        # Safely assign and export the variable
+        export "$key=$value"
+    done < "$INSTALL_DIR/.env"
 fi
 
 echo "Starting updates at $(date)" >> "$LOGFILE"

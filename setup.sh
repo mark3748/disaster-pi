@@ -16,14 +16,22 @@ AI_MODEL="qwen2.5:1.5b" # Change to 'phi-3' if preferred
 DNS_DEST="/etc/dnsmasq.d/01-DNS-survival-lan.conf"
 GITPATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Load existing .env if it exists to pre-fill answers
+# Safely read .env as data, bypassing execution vulnerabilities
 if [ -f "$INSTALL_DIR/.env" ]; then
-    echo "[+] Found existing configuration at $INSTALL_DIR/.env"
-    # Use a subshell to avoid polluting the current environment too much, 
-    # but we actually WANT these variables.
-    set -a
-    source "$INSTALL_DIR/.env"
-    set +a
+    echo "[+] Loading configuration from $INSTALL_DIR/.env"
+    while IFS='=' read -r key value; do
+        # Skip comments and empty lines
+        [[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
+        
+        # Strip potential surrounding single or double quotes from the value
+        value="${value%\"}"
+        value="${value#\"}"
+        value="${value%\'}"
+        value="${value#\'}"
+        
+        # Safely assign and export the variable
+        export "$key=$value"
+    done < "$INSTALL_DIR/.env"
 fi
 
 # Set defaults if not loaded from .env
