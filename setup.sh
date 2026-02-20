@@ -172,11 +172,11 @@ fi
 # Save .env File before launching stack
 echo "[+] Saving .env configuration..."
 {
-    printf "%s=%q\n" "PG_ADMIN_PASSWORD" "$PG_ADMIN_PASSWORD"
-    printf "%s=%q\n" "ENABLE_AI" "$ENABLE_AI"
-    printf "%s=%q\n" "ENABLE_DOCKING" "$ENABLE_DOCKING"
-    printf "%s=%q\n" "GITPATH" "$GITPATH"
-    printf "%s=%q\n" "INSTALL_DIR" "$INSTALL_DIR"
+    printf "%s=%s\n" "PG_ADMIN_PASSWORD" "$PG_ADMIN_PASSWORD"
+    printf "%s=%s\n" "ENABLE_AI" "$ENABLE_AI"
+    printf "%s=%s\n" "ENABLE_DOCKING" "$ENABLE_DOCKING"
+    printf "%s=%s\n" "GITPATH" "$GITPATH"
+    printf "%s=%s\n" "INSTALL_DIR" "$INSTALL_DIR"
 } > "$INSTALL_DIR/.env"
 chmod 600 "$INSTALL_DIR/.env" # Make it readable only by root/owner
 
