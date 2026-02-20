@@ -58,8 +58,8 @@ if [[ "$ENABLE_AI" == "true" ]]; then
     sudo docker compose -f compose.ai.yaml pull >> "$LOGFILE" 2>&1
     echo "Updating containers (AI Enabled)..." >> "$LOGFILE"
     # Re-launch stack to apply any changes from the synced compose files
-    sudo docker compose -f compose.yaml -f compose.ai.yaml up -d >> "$LOGFILE" 2>&1
+    sudo docker compose -f compose.yaml -f compose.ai.yaml up -d --remove-orphans >> "$LOGFILE" 2>&1
 else
     echo "Updating containers (Standard)..." >> "$LOGFILE"
-    sudo docker compose -f compose.yaml up -d >> "$LOGFILE" 2>&1
+    sudo docker compose -f compose.yaml up -d --remove-orphans >> "$LOGFILE" 2>&1
 fi

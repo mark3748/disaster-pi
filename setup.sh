@@ -135,6 +135,9 @@ if [[ $ENABLE_DOCKING == true ]]; then
     chown root:root /etc/NetworkManager/dispatcher.d/99-docking-mode
     chmod 755 /etc/NetworkManager/dispatcher.d/99-docking-mode
     systemctl enable --now NetworkManager-dispatcher.service # Ensure the dispatcher service is running or the script won't run when the interface comes up.
+else
+    echo "[+] Disabling Docking Mode..."
+    rm -f /etc/NetworkManager/dispatcher.d/99-docking-mode
 fi
 
 # FORCE PERMISSIONS for User 1000
@@ -174,11 +177,11 @@ cd "$INSTALL_DIR"
 if [[ $ENABLE_AI == true ]]; then
     echo "[+] Launching Stack (Standard + AI)..."
     cp ./docker/compose.yaml ./docker/compose.ai.yaml .
-    docker compose -f compose.yaml -f compose.ai.yaml up -d
+    docker compose -f compose.yaml -f compose.ai.yaml up -d --remove-orphans
 else
     echo "[+] Launching Stack (Standard)..."
     cp ./docker/compose.yaml .
-    docker compose up -d
+    docker compose up -d --remove-orphans
 fi
 
 # 5. AI Model Pull (Conditional)
