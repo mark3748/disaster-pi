@@ -23,4 +23,4 @@ services:
       - homepage.enable=true
       - homepage.group=Radio
       - homepage.name=SDR
-      - homepage.icon=radio
+      - homepage.icon=radio.svg

@@ -248,6 +248,6 @@ if [[ $ENABLE_AI == true ]]; then
     echo "AI Access: https://ai.survival.lan"
 fi
 if [[ $ENABLE_SDR == true ]]; then
-    echo "SDR Access: http://sdr.survival.lan"
+    echo "SDR Access: https://sdr.survival.lan"
 fi
 echo "Don't forget to grab your File Browser password via: docker compose logs filebrowser | grep admin"
