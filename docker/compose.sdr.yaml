@@ -1,0 +1,20 @@
+services:
+  owrx:
+    image: 'slechev/openwebrxplus-softmbe:latest'
+    container_name: owrx-mbe
+    restart: unless-stopped
+    ports:
+      - '8073:8073'
+    environment:
+      # TZ: America/New_York # Set to your timezone
+      OPENWEBRX_ADMIN_USER: ${OPENWEBRX_ADMIN_USER}
+      OPENWEBRX_ADMIN_PASSWORD: ${OPENWEBRX_ADMIN_PASSWORD}
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    volumes:
+      - ./owrx-docker/etc:/etc/openwebrx
+      - ./owrx-docker/var:/var/lib/openwebrx
+      - ./owrx-docker/plugins:/usr/lib/python3/dist-packages/htdocs/plugins
+    # mount /tmp in memory, for RPi devices, to avoid SD card wear and make dump1090 work faster
+    tmpfs:
+      - /tmp:mode=1777
