@@ -2,6 +2,14 @@
 
 All notable changes to the Disaster Pi project will be documented in this file.
 
+## development - 1 March 2026
+
+### Features
+- Added SDR (OpenWebRX+) integration with configurable admin credentials and conditional Docker Compose launch.
+
+### Bug Fixes
+- Fixed filebrowser to restart unless stopped.
+
 ## v1.3.0 - 20 February 2026
 
 ### Features

@@ -114,3 +114,12 @@ This example runs the script every Monday at 5:00 AM
 # Since this uses rsync, it only copies changed system files.
 0 5 * * 1 /opt/disaster-pi/scripts/backup-system.sh
 ```
+
+# SDR Integration
+Disaster Pi now includes OpenWebRX+ integration. This allows you to access your SDR from any device on your network.
+
+Integration is enabled through the setup script, `sudo /opt/disaster-pi/setup.sh`.  
+
+OpenWebRX+ has been tested with RTL-SDR devices and should work with any RTL-SDR compatible device. If you use a different dongle, some manual configuration may be required. 
+
+![OpenWebRX+](images/opensdr-adsb.png)
