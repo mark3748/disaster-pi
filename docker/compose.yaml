@@ -93,6 +93,7 @@ services:
       
   filebrowser:
     image: filebrowser/filebrowser:s6
+    restart: unless-stopped
     volumes:
       - ./files:/srv
       - filebrowser_database:/database

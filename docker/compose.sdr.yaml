@@ -18,3 +18,9 @@ services:
     # mount /tmp in memory, for RPi devices, to avoid SD card wear and make dump1090 work faster
     tmpfs:
       - /tmp:mode=1777
+    labels:
+      - homepage.href=https://sdr.survival.lan
+      - homepage.enable=true
+      - homepage.group=Radio
+      - homepage.name=SDR
+      - homepage.icon=radio
