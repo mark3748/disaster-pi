@@ -1,6 +1,6 @@
 services:
   owrx:
-    image: 'slechev/openwebrxplus-softmbe:latest'
+    image: 'slechev/openwebrxplus-softmbe:1.2.107'
     container_name: owrx-mbe
     restart: unless-stopped
     ports:
@@ -19,8 +19,8 @@ services:
     tmpfs:
       - /tmp:mode=1777
     labels:
-      - homepage.href=https://sdr.survival.lan
-      - homepage.enable=true
-      - homepage.group=Radio
-      - homepage.name=SDR
-      - homepage.icon=/icons/radio.svg
+      - "homepage.href=https://sdr.survival.lan"
+      - "homepage.enable=true"
+      - "homepage.group=Radio"
+      - "homepage.name=SDR"
+      - "homepage.icon=/icons/radio.svg"
