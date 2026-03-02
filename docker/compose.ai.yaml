@@ -45,6 +45,6 @@ services:
     labels:
       - "homepage.group=AI"
       - "homepage.name=Chat Assistant"
-      - "homepage.icon=open-webui"
+      - "homepage.icon=/icons/open-webui.svg"
       - "homepage.href=https://ai.survival.lan"
       - "homepage.description=Offline AI & RAG"

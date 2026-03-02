@@ -36,8 +36,11 @@ fi
 
 # Set defaults if not loaded from .env
 ENABLE_AI=${ENABLE_AI:-false}
+ENABLE_SDR=${ENABLE_SDR:-false}
 ENABLE_DOCKING=${ENABLE_DOCKING:-false}
 PG_ADMIN_PASSWORD=${PG_ADMIN_PASSWORD:-disasterpiadmin}
+OPENWEBRX_ADMIN_USER=${OPENWEBRX_ADMIN_USER:-admin}
+OPENWEBRX_ADMIN_PASSWORD=${OPENWEBRX_ADMIN_PASSWORD:-changeme}
 
 # --- Whiptail Menu System ---
 
@@ -79,8 +82,35 @@ else
     fi
 fi
 
-# 3. Prompt for Postgres Password
-PG_ADMIN_PASSWORD_TMP=$(whiptail --title "Database Security" --inputbox "Enter desired Postgres 'admin' user password:" 10 60 "$PG_ADMIN_PASSWORD" 3>&1 1>&2 2>&3)
+# 3. Prompt for SDR Integration
+SDR_MSG="Enable Software Defined Radio (SDR)?\n\nThis will install OpenWebRX+.\n\nCurrent Status: $( [[ $ENABLE_SDR == true ]] && echo "ENABLED" || echo "DISABLED" )"
+if [[ $ENABLE_SDR == true ]]; then
+    if whiptail --title "SDR Integration" --yesno "$SDR_MSG" 12 60; then
+        ENABLE_SDR=true
+    else
+        ENABLE_SDR=false
+    fi
+else
+    if whiptail --title "SDR Integration" --yesno "$SDR_MSG" 12 60 --defaultno; then
+        ENABLE_SDR=true
+    else
+        ENABLE_SDR=false
+    fi
+fi
+
+if [[ $ENABLE_SDR == true ]]; then
+    OPENWEBRX_ADMIN_USER_TMP=$(whiptail --title "SDR Security" --inputbox "Enter OpenWebRX admin username:" 10 60 "$OPENWEBRX_ADMIN_USER" 3>&1 1>&2 2>&3)
+    if [ $? -eq 0 ]; then
+        OPENWEBRX_ADMIN_USER="$OPENWEBRX_ADMIN_USER_TMP"
+    fi
+    OPENWEBRX_ADMIN_PASSWORD_TMP=$(whiptail --title "SDR Security" --passwordbox "Enter OpenWebRX admin password:" 10 60 3>&1 1>&2 2>&3)
+    if [ $? -eq 0 ]; then
+        OPENWEBRX_ADMIN_PASSWORD="$OPENWEBRX_ADMIN_PASSWORD_TMP"
+    fi
+fi
+
+# 4. Prompt for Postgres Password
+PG_ADMIN_PASSWORD_TMP=$(whiptail --title "Database Security" --passwordbox "Enter desired Postgres 'admin' user password:" 10 60 3>&1 1>&2 2>&3)
 if [ $? -eq 0 ]; then
     PG_ADMIN_PASSWORD="$PG_ADMIN_PASSWORD_TMP"
 fi
@@ -123,6 +153,12 @@ fi
 # 3. Create Directories & Fix Permissions
 echo "[+] Creating project directories..."
 mkdir -p "$INSTALL_DIR"/{files/zim-library,docker,homepage,mealie-data,pgdata,scripts,ollama_data,open-webui-data,homebox-data,logs}
+
+# Create SDR-specific directories only if SDR is enabled
+if [ "${ENABLE_SDR}" = "true" ]; then
+    echo "[+] SDR enabled; creating SDR (owrx-docker) directories..."
+    mkdir -p "$INSTALL_DIR"/owrx-docker/{etc,var,plugins}
+fi
 
 # Copy Configs
 echo "[+] Copying configurations..."
@@ -174,7 +210,10 @@ echo "[+] Saving .env configuration..."
 {
     printf "%s=%s\n" "PG_ADMIN_PASSWORD" "$PG_ADMIN_PASSWORD"
     printf "%s=%s\n" "ENABLE_AI" "$ENABLE_AI"
+    printf "%s=%s\n" "ENABLE_SDR" "$ENABLE_SDR"
     printf "%s=%s\n" "ENABLE_DOCKING" "$ENABLE_DOCKING"
+    printf "%s=%s\n" "OPENWEBRX_ADMIN_USER" "$OPENWEBRX_ADMIN_USER"
+    printf "%s=%s\n" "OPENWEBRX_ADMIN_PASSWORD" "$OPENWEBRX_ADMIN_PASSWORD"
     printf "%s=%s\n" "GITPATH" "$GITPATH"
     printf "%s=%s\n" "INSTALL_DIR" "$INSTALL_DIR"
 } > "$INSTALL_DIR/.env"
@@ -182,15 +221,21 @@ chmod 600 "$INSTALL_DIR/.env" # Make it readable only by root/owner
 
 # 4. Launch Stack
 cd "$INSTALL_DIR"
+echo "[+] Launching Stack..."
+cp ./docker/compose.yaml .
+COMPOSE_ARGS="-f compose.yaml"
+
 if [[ $ENABLE_AI == true ]]; then
-    echo "[+] Launching Stack (Standard + AI)..."
-    cp ./docker/compose.yaml ./docker/compose.ai.yaml .
-    docker compose -f compose.yaml -f compose.ai.yaml up -d --remove-orphans
-else
-    echo "[+] Launching Stack (Standard)..."
-    cp ./docker/compose.yaml .
-    docker compose up -d --remove-orphans
+    cp ./docker/compose.ai.yaml .
+    COMPOSE_ARGS="$COMPOSE_ARGS -f compose.ai.yaml"
 fi
+
+if [[ $ENABLE_SDR == true ]]; then
+    cp ./docker/compose.sdr.yaml .
+    COMPOSE_ARGS="$COMPOSE_ARGS -f compose.sdr.yaml"
+fi
+
+docker compose $COMPOSE_ARGS up -d --remove-orphans
 
 # 5. AI Model Pull (Conditional)
 if [[ $ENABLE_AI == true ]]; then
@@ -207,5 +252,8 @@ echo "Dashboard: https://survival.lan"
 echo "Admin:     https://admin.survival.lan"
 if [[ $ENABLE_AI == true ]]; then
     echo "AI Access: https://ai.survival.lan"
+fi
+if [[ $ENABLE_SDR == true ]]; then
+    echo "SDR Access: https://sdr.survival.lan"
 fi
 echo "Don't forget to grab your File Browser password via: docker compose logs filebrowser | grep admin"

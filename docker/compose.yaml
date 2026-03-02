@@ -18,7 +18,7 @@ services:
     labels:
       - "homepage.group=System"
       - "homepage.name=Caddy Proxy"
-      - "homepage.icon=caddy.svg"
+      - "homepage.icon=/icons/caddy.svg"
       - "homepage.href=https://survival.lan" # Link to main dashboard
       - "homepage.description=Reverse Proxy for Services"
 
@@ -28,6 +28,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./homepage:/app/config # Mount custom config, changes made here persist across updates
+      - ./homepage/icons:/app/public/icons # Mount custom icons, ensuring icons are available offline
       - /var/run/docker.sock:/var/run/docker.sock:ro # Read-only access to Docker socket for service discovery, required for auto-generation of buttons
     # ports:
     #   - "3000:3000" # Optional: expose Homepage on its own port (not needed if using Caddy)
@@ -59,7 +60,7 @@ services:
     labels:
       - "homepage.group=Survival"
       - "homepage.name=Kiwix Library"
-      - "homepage.icon=kiwix-light.svg"
+      - "homepage.icon=/icons/kiwix-light.svg"
       - "homepage.href=https://kiwix.survival.lan"
 
 ## Mealie Recipe Manager
@@ -83,7 +84,7 @@ services:
     labels:
       - "homepage.group=Survival"
       - "homepage.name=Mealie Recipes"
-      - "homepage.icon=mealie.svg"
+      - "homepage.icon=/icons/mealie.svg"
       - "homepage.href=https://mealie.survival.lan"
       ## Optional: enable Mealie dashboard widget (requires an API token with read access)
       # - "homepage.widget.type=mealie"
@@ -93,6 +94,7 @@ services:
       
   filebrowser:
     image: filebrowser/filebrowser:s6
+    restart: unless-stopped
     volumes:
       - ./files:/srv
       - filebrowser_database:/database
@@ -105,7 +107,7 @@ services:
     labels:
       - "homepage.group=Survival"
       - "homepage.name=Files"
-      - "homepage.icon=filebrowser.svg"
+      - "homepage.icon=/icons/filebrowser.svg"
       - "homepage.href=https://files.survival.lan"
       - "homepage.description=File Management"
       ## Optional: enable Filebrowser dashboard widget (use the credentials configured at first launch)
@@ -134,7 +136,7 @@ services:
     labels:
       - "homepage.group=Survival"
       - "homepage.name=Homebox"
-      - "homepage.icon=homebox.svg"
+      - "homepage.icon=/icons/homebox.svg"
       - "homepage.href=https://homebox.survival.lan"
       - "homepage.description=Home Inventory Management"
 

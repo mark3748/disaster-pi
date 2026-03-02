@@ -2,6 +2,18 @@
 
 All notable changes to the Disaster Pi project will be documented in this file.
 
+## v1.4.0 - 1 March 2026
+
+### Features
+- Added SDR (OpenWebRX+) integration with configurable admin credentials and conditional Docker Compose launch.
+
+### Bug Fixes
+- Fixed filebrowser to restart unless stopped.
+- Fixed icons to use absolute paths to ensure local icons are used.
+- Added custom icons volume mount to the homepage service for offline availability.
+- Added SDR-specific directories only if SDR is enabled.
+- Added open-webui icon to the homepage service.
+
 ## v1.3.0 - 20 February 2026
 
 ### Features

@@ -24,7 +24,7 @@ files.survival.lan {
 }
 
 ai.survival.lan {
-	reverse_proxy open-webui:8080 # Don't forget to change this if you switch chat interfaces!
+	reverse_proxy open-webui:8080 
 	tls internal
 }
 
@@ -34,4 +34,9 @@ homebox.survival.lan {
         header_up X-Real-IP {remote_host}
     }
     tls internal
+}
+
+sdr.survival.lan {
+	reverse_proxy owrx:8073
+	tls internal
 }

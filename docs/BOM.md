@@ -19,4 +19,5 @@ This build is designed around the **Raspberry Pi 5** due to its PCIe capabilitie
 
 ## Recommended Peripherals
 * **USB Wi-Fi Adapter (Optional):** If you want to use the internal Wi-Fi for client connections (Hotspot) and need a second interface to scan for external networks.
+* **RTL-SDR Dongle (Recommended for SDR mode):** Enables OpenWebRX+ signal monitoring. SDR dongles add USB power draw and thermal load, which reinforces the need for using the 27W power supply and active cooling.
 * **USB Drive (128GB):** For "Cold Storage" backups of your Docker images and ZIM files.

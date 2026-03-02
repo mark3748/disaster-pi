@@ -2,12 +2,12 @@
 
 The following is a living document of the wants, needs, and "wouldn't it be cool if" features for Disaster Pi. Priorities are subject to change based on hardware availability and the encroaching apocalypse.
 
-## 🛠️ Phase 1: Operational Refinement (v1.1 - v1.4)
+## 🛠️ Phase 1: Operational Refinement (v1.1 - v1.4) **Completed**
 
 *Focus: Stability, Usability, and Logistics.*
 
 * [x] **Inventory System (Logistics):** Implementation of **HomeBox** to track physical assets (batteries, meds, spare parts). *Status: Done.*
-* [ ] **SDR Integration (Signal Intel):** Support for RTL-SDR v3 dongles via OpenWebRX+ or similar. Turn the Pi into a spectrum scanner for weather, police, and HAM bands.
+* [x] **SDR Integration (Signal Intel):** Support for RTL-SDR v3 dongles via OpenWebRX+ or similar. Turn the Pi into a spectrum scanner for weather, police, and HAM bands.
 * [x] **"Docking Mode" (formerly "Scavenger Mode"):** A NetworkManager dispatcher script that detects an active internet connection (Ethernet/Uplink) and automatically runs:
     * `docker compose pull` (Update images)
     * `apt update && apt upgrade` (Patch OS)
