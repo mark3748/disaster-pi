@@ -10,6 +10,7 @@ All notable changes to the Disaster Pi project will be documented in this file.
 ### Bug Fixes
 - Fixed filebrowser to restart unless stopped.
 - Fixed icons to use absolute paths to ensure local icons are used.
+- Added custom icons volume mount to the homepage service for offline availability.
 
 ## v1.3.0 - 20 February 2026
 
