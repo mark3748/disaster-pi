@@ -11,6 +11,8 @@ All notable changes to the Disaster Pi project will be documented in this file.
 - Fixed filebrowser to restart unless stopped.
 - Fixed icons to use absolute paths to ensure local icons are used.
 - Added custom icons volume mount to the homepage service for offline availability.
+- Added SDR-specific directories only if SDR is enabled.
+- Added open-webui icon to the homepage service.
 
 ## v1.3.0 - 20 February 2026
 
